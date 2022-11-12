@@ -1,0 +1,38 @@
+{% extends 'bases/base.html' %}
+
+{% block sidebar %}
+<ul class="nav sidebar-inner" id="sidebar-menu">
+    <li  class="active" >
+      <a class="sidenav-item-link" href="{{ url_for('dashboard.index') }}">
+        <i class="mdi mdi-view-dashboard-outline"></i>
+        <span class="nav-text">Dashboard</span>
+      </a>
+    </li>
+    {% if g.user['security_level'] > 1 %}
+    <li  class="" >
+      <a class="sidenav-item-link" href="{{ url_for('teams.teams') }}">
+        <i class="mdi mdi-account-group-outline"></i>
+        <span class="nav-text">Manage Teams</span>
+      </a>
+    </li>
+    <li  class="" >
+      <a class="sidenav-item-link" href="{{ url_for('projects.allProjects') }}">
+        <i class="mdi mdi-folder-multiple-outline"></i>
+        <span class="nav-text">Projects</span>
+      </a>
+    </li>
+    {% endif %}
+    <li  class="" >
+      <a class="sidenav-item-link" href="{{ url_for('tickets.myTickets') }}">
+        <i class="mdi mdi-file-document-outline"></i>
+        <span class="nav-text">My Tickets</span>
+      </a>
+    </li>     
+    <li  class="" >
+      <a class="sidenav-item-link" href="{{ url_for('account.account') }}">
+        <i class="mdi mdi-account-outline"></i>
+        <span class="nav-text">Account</span>
+      </a>
+    </li>                
+  </ul>
+{% endblock %}

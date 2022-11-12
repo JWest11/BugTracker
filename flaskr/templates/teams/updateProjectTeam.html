@@ -1,0 +1,65 @@
+{% extends 'sidebars/teamSidebar.html' %}
+
+{% block content %}
+
+<a class="btn btn-secondary text-light mb-3" href="{{ url_for('projects.viewProject', project_id=project['project_id']) }}">Back</a>
+
+<div class="row">
+
+    <div class="col-xl-8 col-md-12">
+
+        <div class="card card-default">
+            <div class="card-header card-header-border-bottom justify-content-between">
+                <h2>Manage Team</h2>
+                <h2>{{ project['title'] }}</h2>
+            </div>
+
+            <div class="card-body">
+
+                <table class="table">
+                    <thead>
+                        <h4 class="text-success mb-3">Current Members</h4>
+                        <tr>
+                            <th scope="col" class="text-secondary">username</th>
+                            <th scope="col" class="text-secondary">Security Level</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for user in assigned_users %}
+                        <tr>
+                            <td>{{ user['username'] }}</td>
+                            <td class="text-dark">{{ user['security_level'] }}</td>
+                            <td><a class="btn btn-danger btn-sm text-light" href="{{ url_for('teams.removeTeamMember', project_id=project['project_id'], user_id=user['user_id']) }}">Remove</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <table class="table">
+                    <thead>
+                        <h4 class="text-danger mb-3 mt-4">Non Members</h4>
+                        <tr>
+                            <th scope="col" class="text-secondary">username</th>
+                            <th scope="col" class="text-secondary">Security Level</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for user in unassigned_users %}
+                        <tr>
+                            <td>{{ user['username'] }}</td>
+                            <td class="text-dark">{{ user['security_level'] }}</td>
+                            <td><a class="btn btn-success btn-sm text-light" href="{{ url_for('teams.addTeamMember', project_id=project['project_id'], user_id=user['user_id']) }}">Add</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+.numberInput {
+    width: 50px;
+}
+.boldCustom {
+    font-weight: bold;
+}
+.hoverBlue {
+    color:black;
+}
+.borderDark {
+    border: 1px solid black;
+}
+.hoverBlueTwo:hover {
+    color:blue !important;
+}
+.hoverBlueTwo {
+    transition: 300ms;
+}

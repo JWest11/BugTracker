@@ -1,0 +1,57 @@
+{% extends 'sidebars/projectSidebar.html' %}
+
+
+{% block content %}
+
+<div class="row">
+  <div class="col-12">
+    
+              <!-- Recent Order Table -->
+              <div class="card card-table-border-none recent-orders" id="recent-orders">
+                <div class="card-header justify-content-between">
+                  <h2>Projects</h2>
+                  {% if g.user['security_level'] == 3 %}
+                  <a class="btn btn-secondary" href="{{ url_for('projects.createProject')}}">Create New Project</a>
+                  {% endif %}
+                </div>
+                <div class="card-body pt-0 pb-5">
+                  <table class="table card-table table-responsive table-responsive-large" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for project in projects %}
+                      <tr id="project{{ loop.index0 }}" style="display:none">
+                        <td >
+                          <a class="text-dark" href="{{ url_for('projects.viewProject', project_id=project['project_id']) }}">{{ project['title'] }}</a>
+                        </td>
+                        <td >
+                          <p class="text-dark">{{ project['description'] }}</p>
+                        </td>
+                        <td>
+                          <a class="btn btn-primary" href="{{ url_for('projects.viewProject', project_id=project['project_id']) }}">View</a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  <div class="container d-flex justify-content-end align-items-center" id="projectControl">
+
+                  </div>
+                </div>
+              </div>
+
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
+<script>
+	let ProjectPagination = new Pagination({{ projectCount }}, 5, "project");
+
+</script>
+
+{% endblock %}

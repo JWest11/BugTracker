@@ -1,0 +1,105 @@
+{% extends 'sidebars/dashboardSidebar.html' %}
+
+
+
+{% block content %}
+
+<script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
+
+
+
+<div class="row">
+
+  <div class="col-xl-6 col-md-12">
+
+    {% for obj in project_data %}
+    {% set objIndex = loop.index0 %}
+    {% set userPrefix = "user" + objIndex|string %}
+    {% set ticketPrefix = "ticket" + objIndex|string %}
+    <div class="card card-default">
+      <div class="card-header justify-content-between">
+        <a href="{{ url_for('projects.viewProject', project_id=obj.project.project_id) }}"><h2 class="hoverBlueTwo">{{ obj.project.title }}</h2></a>
+      </div>
+      <p class="pl-5 pr-2">{{ obj.project.description }}</p>
+      <div class="card-body" >
+        <h4 class="text-dark">Team Members</h4>
+        <table class="table">
+          <tbody>
+            {% for user in obj.users %}
+            <tr id="{{userPrefix + loop.index0|string }}">
+              <td class="text-secondary">{{ user.username }}</td>
+              <td>Security Level {{ user.security_level }}</td>
+            </tr>
+            {% endfor %}
+            <div class="container d-flex justify-content-end align-items-center" id="{{userPrefix + 'Control' }}"></div>
+
+          </tbody>
+          
+
+          
+        </table>
+        <h4 class="text-dark">Tickets</h4>
+        <table class="table">
+          <tbody>
+            {% for ticket in obj.tickets %}
+            <tr id="{{ticketPrefix + loop.index0|string }}">
+              <td >
+                <a class="text-secondary" href="{{ url_for('tickets.viewTicket', ticket_id=ticket.ticket_id )}}">{{ ticket.title }}</a>
+              </td>
+              <td>{{ ticket.description }}</td>
+            </tr>
+            {% endfor %}
+            <div class="container d-flex justify-content-end align-items-center" id="{{ticketPrefix + 'Control'}}"></div>
+
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+    <script>
+      new Pagination({{ obj.ticketCount }}, 3, "{{ticketPrefix}}");
+      new Pagination({{ obj.teamSize }}, 3, "{{userPrefix}}");
+
+    </script>
+    {% endfor %}
+    
+
+  
+		
+    
+  </div>
+
+<div class="col-xl-6 col-md-12">
+
+        <div class="card card-default">
+          <div class="card-header justify-content-center">
+            <h2>Tickets per Project</h2>
+          </div>
+          <div class="card-body d-flex justify-content-center" >
+            <div style="width:70%;">
+                <canvas id="projectBarChart" ></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-default">
+          <div class="card-header justify-content-center">
+            <h2>Team Members per Project</h2>
+          </div>
+          <div class="card-body d-flex justify-content-center" >
+            <div style="width:70%;">
+                <canvas id="projectBarChart2" ></canvas>
+            </div>
+          </div>
+        </div>
+      
+  </div>
+
+
+</div>
+
+
+<div style="display: none;" id="projectBarData">{{ projectBarData }}</div>
+<div style="display: none;" id="projectBarData2">{{ projectBarData2 }}</div>
+
+{% endblock %}

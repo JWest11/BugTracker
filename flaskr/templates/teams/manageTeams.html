@@ -1,0 +1,58 @@
+{% extends 'sidebars/teamSidebar.html' %}
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-lg-12">
+
+        <div class="card card-default">
+            <div class="card-header card-header-border-bottom justify-content-between align-items-center">
+                <h2>Team Management</h2>
+                <div id="usersControl">
+
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Projects</th>
+                            <th>Ticket Count</th>
+                            <th>Current Security Level</th>
+                            {% if g.user['security_level'] == 3 %}
+                            <th></th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for obj in completeUsers %}
+                        <tr id="users{{ loop.index0 }}">
+                            <td>{{ obj['user']['username'] }}</td>
+                            <td class="text-dark">{{ obj['projects'] }}</td>
+                            <td class="text-dark">{{ obj['ticketCount'] }}</td>
+                            <td class="text-dark">{{ obj['user']['security_level'] }}</td>
+                            {% if g.user['security_level'] == 3 %}
+                            <td>
+                                <a class="btn btn-sm btn-dark" href="{{ url_for('teams.manageUser', user_id=obj['user']['user_id']) }}">Edit</a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/Search.js') }}"></script>
+<script>
+    let userSearch = new Search({{ userCount }}, "users");
+</script>
+
+{% endblock %}

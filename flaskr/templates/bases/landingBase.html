@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500" rel="stylesheet" />
+    <link href="assets/img/favicon.ico" rel="icon" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landingPage.css') }}">
+    <title>Bug Tracker</title>
+</head>
+<body>
+    <div class="headerImgContainer">
+        <img src="{{ url_for('static', filename='img/bugTrackerImg.png') }}" alt="bug image">
+    </div>
+    <div class="content_container">
+        
+        {% for message in get_flashed_messages() %}
+        <h3 class="alert">{{ message }}</h3>
+        {% endfor %}
+        <div class="form_container">
+            {% block formContent %}
+            {% endblock %}
+        
+        </div>
+    </div>
+
+    
+    
+</body>
+</html>

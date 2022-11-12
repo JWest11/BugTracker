@@ -1,0 +1,43 @@
+{% extends 'bases/landingBase.html' %}
+
+
+{% block formContent %}
+<div class="formHeader">
+    <h1>Demo Login</h1>
+</div>
+
+<div class="demoContainer">
+    <div class="demoImgContainer">
+        <img src="{{ url_for('static', filename='img/adminImage.png') }}" alt="" class="demoImg">
+    </div>
+    <form method="post" class="auth_form">
+        <input type="hidden" class="inputText" name="username" id="username" value="admin">
+        <input type="hidden" class="inputText" type="password" name="password" id="password" value="1234">
+        <input class="inputSubmitRed" type="submit" value="Admin Login">
+    </form>
+</div>
+<div class="demoContainer">
+    <div class="demoImgContainer">
+        <img src="{{ url_for('static', filename='img/managerImage.png') }}" alt="" class="demoImg">
+    </div>
+    <form method="post" class="auth_form">
+        <input type="hidden" class="inputText" name="username" id="username" value="Manager">
+        <input type="hidden" class="inputText" type="password" name="password" id="password" value="1234">
+        <input class="inputSubmitBlue" type="submit" value="Manager Login">
+    </form>
+</div>
+<div class="demoContainer">
+    <div class="demoImgContainer">
+        <img src="{{ url_for('static', filename='img/developerImage.png') }}" alt="" class="demoImg">
+    </div>
+    <form method="post" class="auth_form">
+        <input type="hidden" class="inputText" name="username" id="username" value="Developer">
+        <input type="hidden" class="inputText" type="password" name="password" id="password" value="1234">
+        <input class="inputSubmitGrey" type="submit" value="Developer Login">
+    </form>
+</div>
+
+
+
+
+{% endblock %}

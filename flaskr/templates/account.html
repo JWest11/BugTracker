@@ -1,0 +1,24 @@
+{% extends 'sidebars/accountSidebar.html' %}
+
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12">
+      
+                <!-- Recent Order Table -->
+                <div class="card card-table-border-none recent-orders" id="recent-orders">
+                  <div class="card-header justify-content-between">
+                    <h2>{{ g.user['username'] }} <span class="text-secondary">#{{ g.user['user_id'] }}</span></h2>
+                  </div>
+                  <div class="card-body pt-0 pb-5">
+                    <p class="text-dark pt-4 pb-4">Security Level: {{ g.user['security_level'] }}</p>
+                    <a href="{{ url_for('auth.logout') }}" class="mt-4 btn btn-danger">Logout</a>
+                  </div>
+                </div>
+  
+    </div>
+  </div>
+
+{% endblock %}

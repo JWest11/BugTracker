@@ -1,0 +1,125 @@
+{% extends 'sidebars/dashboardSidebar.html' %}
+
+
+
+{% block content %}
+
+<div class="row">
+
+  <div class="col-xl-6 col-md-12">
+				
+    <div class="card card-table-border-none recent-orders" id="recent-orders">
+        <div class="card-header justify-content-between align-items-center">
+          <h2>My Assigned Tickets: {{ ticketCount }}</h2>
+          <div id="ticketControl">
+
+          </div>
+        </div>
+        <div class="card-body pt-0 pb-5">
+          <table class="table card-table table-responsive table-responsive-large" style="width:100%">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Project</th>
+                <th>Priority</th>
+                <th class="d-none d-lg-table-cell">Created</th>
+                <th class="d-none d-lg-table-cell">Created By</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for ticket in tickets %}
+              <tr id="ticket{{ loop.index0 }}">
+                <td >
+                  <a class="text-dark" href="{{ url_for('tickets.viewTicket', ticket_id=ticket['ticket_id'] )}}">{{ ticket['title'] }}</a>
+                </td>
+                <td >
+                {% if g.user['security_level'] > 1 %}
+                  <a class="text-dark" href="{{ url_for('projects.viewProject', project_id=ticket['project_id'] )}}">{{ projectTitles[loop.index0] }}</a>
+                  {% else %}
+                  <p class="text-dark">{{ projectTitles[loop.index0] }}</p>
+                  {% endif %}
+                </td>
+                <td >
+                  {% set priority = ticket['priority'] %}
+                  {% if priority == 'High' %}
+                  <span class="badge badge-danger">{{ priority }}</span>
+                  {% elif priority == 'Medium' %}
+                  <span class="badge badge-warning">{{ priority }}</span>
+                  {% else %}
+                  <span class="badge badge-success">{{ priority }}</span>
+                  {% endif %}
+                </td>
+                <td class="d-none d-lg-table-cell">{{ ticket['created'] }}</td>
+                <td class="d-none d-lg-table-cell">{{ ticket['author_username'] }}</td>
+                <td class="text-right">
+                  {% if g.user['security_level'] > 1 %}
+                  <div class="dropdown show d-inline-block widget-dropdown">
+                    <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
+                      <li class="dropdown-item">
+                        <a href="{{ url_for('tickets.viewTicket', ticket_id=ticket['ticket_id'] )}}">View</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="{{ url_for('tickets.updateTicket', project_id=ticket['project_id'], ticket_id=ticket['ticket_id']) }}">Edit</a>
+                      </li>
+                    </ul>
+                  </div>
+                  {% else %}
+                  <a class="btn btn-primary" href="{{ url_for('tickets.viewTicket', ticket_id=ticket['ticket_id'] )}}">View</a>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+</div>
+
+<div class="col-xl-6 col-md-12">
+
+        <div class="card card-default">
+          <div class="card-header justify-content-center">
+            <h2>Tickets by Project</h2>
+          </div>
+          <div class="card-body d-flex justify-content-center" >
+            <div style="width:70%;">
+                <canvas id="projectBarChart" ></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-default">
+            <div class="card-header justify-content-center">
+              <h2>Tickets by priority</h2>
+            </div>
+            <div class="card-body" >
+              <canvas id="projectTicketChart" ></canvas>
+            </div>
+            <div class="card-footer d-flex bg-white justify-content-center align-items-center p-0">
+              <div class="">
+                  <ul class="d-flex flex-column justify-content-center align-items-center">
+                    <li class="pt-2"><i class="mdi mdi-checkbox-blank-circle mr-2" style="color: #ff2828"></i>High Priority</li>
+                    <li class="p-1"><i class="mdi mdi-checkbox-blank-circle mr-2" style="color: #f7f443 "></i>Medium Priority</li>
+                    <li class="pb-2"><i class="mdi mdi-checkbox-blank-circle mr-2" style="color: #4cff5b"></i>Low Priority</li>
+                  </ul>
+                </div>
+            </div>
+          </div>
+      
+  </div>
+
+
+</div>
+
+
+<div style="display: none;" id="projectBarData">{{ projectBarData }}</div>
+<div style="display: none;" id="donutData">{{ donutData }}</div>
+
+<script src="{{ url_for('static', filename='js/Search.js') }}"></script>
+  <script>
+      let ticketSearch = new Search({{ ticketCount }}, "ticket");
+  </script>
+
+{% endblock %}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bug Tracker</title>
+  <!-- GOOGLE FONTS -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500" rel="stylesheet" />
+  <link href="https://cdn.materialdesignicons.com/4.4.95/css/materialdesignicons.min.css" rel="stylesheet" />
+  <!-- PLUGINS CSS STYLE -->
+  <link href="{{ url_for('static', filename='css/nprogress.css') }}" rel="stylesheet" />
+  <!-- No Extra plugin used -->   
+  <link href="{{ url_for('static', filename='css/jquery-jvectormap-2.0.3.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/daterangepicker.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/toastr.min.css') }}" rel="stylesheet" />
+  <!-- SLEEK CSS -->
+  <link id="sleek-css" rel="stylesheet" href="{{ url_for('static', filename='css/sleek.min.css') }}" />
+  <link id="sleek-css" rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" />
+  <!-- FAVICON -->
+  <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon" />
+  <!--
+    HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+  -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <script src="{{ url_for('static', filename='js/nprogress.js') }}"></script>
+</head>
+<body class="header-fixed sidebar-fixed sidebar-dark header-light" id="body">
+  
+  <script>
+    NProgress.configure({ showSpinner: false });
+    NProgress.start();
+  </script>
+  
+
+  <div class="wrapper">
+
+            <!--
+          ====================================
+          ——— LEFT SIDEBAR WITH FOOTER
+          =====================================
+        -->
+        <aside class="left-sidebar bg-sidebar">
+          <div id="sidebar" class="sidebar sidebar-with-footer">
+            <!-- Aplication Brand -->
+            <div class="app-brand">
+              <a href="{{ url_for('dashboard.index') }}" title="Bug Tracker">
+                <img class="brand-icon" src="{{ url_for('static', filename='img/favicon.png') }}" alt="bug icon">
+                <span class="brand-name text-truncate">Bug Tracker</span>
+              </a>
+            </div>
+            <!-- begin sidebar scrollbar -->
+            <div class="sidebar-scrollbar">
+
+              <!-- sidebar menu -->
+              {% block sidebar %}
+
+              {% endblock %}
+            </div>
+          </div>
+        </aside>
+
+
+    <div class="page-wrapper">
+                <!-- Header -->
+          <header class="main-header " id="header">
+            <nav class="navbar navbar-static-top navbar-expand-lg">
+              <!-- Sidebar toggle button -->
+              <button id="sidebar-toggler" class="sidebar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+              </button>
+              <!-- search form -->
+              <div class="ml-4 text-primary">
+                {% for message in get_flashed_messages() %}
+                <h3 class="p-2">{{ message }}</h3>
+                {% endfor %}
+              </div>
+              <div class="search-form d-none d-lg-inline-block">
+              </div>
+
+              <div class="navbar-right ">
+                <ul class="nav navbar-nav">
+                  
+                  <!-- User Account -->
+                  <li class="dropdown user-menu">
+                    <button href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                      {% set security = g.user['security_level'] %}
+                      {% if security == 1 %}
+                        <img src="{{ url_for('static', filename='img/developerImage.png') }}" class="user-image" alt="User Image" />
+                        {% elif security == 2 %}
+                        <img src="{{ url_for('static', filename='img/managerImage.png') }}" class="user-image" alt="User Image" />
+                        {% else %}
+                        <img src="{{ url_for('static', filename='img/adminImage.png') }}" class="user-image" alt="User Image" />
+                        {% endif %}
+                      <span class="d-none d-lg-inline-block">{{ g.user['username'] }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <!-- User image -->
+                      <li class="dropdown-header">
+                        {% if security == 1 %}
+                        <img src="{{ url_for('static', filename='img/developerImage.png') }}" class="img-circle" alt="User Image" />
+                        {% elif security == 2 %}
+                        <img src="{{ url_for('static', filename='img/managerImage.png') }}" class="img-circle" alt="User Image" />
+                        {% else %}
+                        <img src="{{ url_for('static', filename='img/adminImage.png') }}" class="img-circle" alt="User Image" />
+                        {% endif %}
+                        <div class="d-inline-block">{{ g.user['username'] }}<small class="pt-1">#{{ g.user['user_id'] }}</small></div>
+                      </li>
+
+                      <li>
+                        <a href="{{ url_for('account.account') }}">
+                          <i class="mdi mdi-account"></i> My Profile
+                        </a>
+                      </li>
+
+                      <li class="dropdown-footer">
+                        <a href="{{ url_for('auth.logout') }}"> <i class="mdi mdi-logout"></i> Log Out </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+
+
+          </header>
+
+
+      <div class="content-wrapper">
+        <div class="content">
+          {% block content %}	 
+
+          {% endblock %}
+				</div>
+      </div>
+
+      
+
+          <footer class="footer mt-auto">
+            <div class="copyright bg-white">
+              <p>Created by Joseph West</p>
+            </div>
+          </footer>
+      </div>
+    </div>
+
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
+<!-- <script src="{{ url_for('static', filename='js/chart.js') }}"></script> -->
+<script src="{{ url_for('static', filename='js/mycharts.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-jvectormap-2.0.3.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-jvectormap-world-mill.js') }}"></script>
+<script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/daterangepicker.js') }}"></script>
+<script>
+  jQuery(document).ready(function() {
+    jQuery('input[name="dateRange"]').daterangepicker({
+    autoUpdateInput: false,
+    singleDatePicker: true,
+    locale: {
+      cancelLabel: 'Clear'
+    }
+  });
+    jQuery('input[name="dateRange"]').on('apply.daterangepicker', function (ev, picker) {
+      jQuery(this).val(picker.startDate.format('MM/DD/YYYY'));
+    });
+    jQuery('input[name="dateRange"]').on('cancel.daterangepicker', function (ev, picker) {
+      jQuery(this).val('');
+    });
+  });
+</script>
+<script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sleek.bundle.min.js') }}"></script>
+</body>
+
+</html>

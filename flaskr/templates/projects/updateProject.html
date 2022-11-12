@@ -1,0 +1,34 @@
+{% extends 'sidebars/projectSidebar.html' %}
+
+
+{% block content %}
+
+<a class="btn btn-secondary text-light mb-3" href="{{ url_for('projects.viewProject', project_id=project['project_id']) }}">Back</a>
+
+<div class="row">
+<div class="col-12">
+    <div class="card card-default">
+        <div class="card-header card-header-border-bottom">
+            <h2>{{ project['title'] }}</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <div class="input-group">
+                        <input value="{{ project['title'] }}" type="text" name="title" class="form-control" id="title" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <div class="input-group">
+                        <input value="{{ project['description'] }}" type="text" name="description" class="form-control" id="description" required>
+                    </div>
+                </div>
+                <input type="submit" value="Update" class="btn btn-primary">
+                <a class="btn btn-danger" href="{{ url_for('projects.deleteProject', project_id=project['project_id']) }}">Delete</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

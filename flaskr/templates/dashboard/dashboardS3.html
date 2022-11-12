@@ -1,0 +1,87 @@
+{% extends 'sidebars/dashboardSidebar.html' %}
+
+
+
+{% block content %}
+
+<script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
+
+
+
+<div class="row">
+
+  <div class="col-xl-6 col-md-12">
+
+    <div class="card card-default">
+      <div class="card-header justify-content-center">
+        <h2>Total Tickets: {{ totalTicketCount }}</h2>
+      </div>
+      <div class="card-body d-flex justify-content-center" >
+        <div >
+            <canvas id="projectTicketChart" ></canvas>
+        </div>
+      </div>
+      <div class="card-footer d-flex bg-white justify-content-center align-items-center p-0">
+        <div class="">
+            <ul class="d-flex flex-column justify-content-center align-items-center">
+              <li class="pt-2"><i class="mdi mdi-checkbox-blank-circle mr-2" style="color: #ff2828"></i>High Priority</li>
+              <li class="p-1"><i class="mdi mdi-checkbox-blank-circle mr-2" style="color: #f7f443 "></i>Medium Priority</li>
+              <li class="pb-2"><i class="mdi mdi-checkbox-blank-circle mr-2" style="color: #4cff5b"></i>Low Priority</li>
+            </ul>
+          </div>
+      </div>
+    </div>
+
+    <div class="card card-default">
+      <div class="card-header justify-content-center">
+        <h2>Total Team Members: {{ userCount }}</h2>
+      </div>
+      <div class="card-body d-flex justify-content-center" >
+        <ul>
+          <li >Security Level 3: <span class="text-dark pl-3">{{ securityMap['3'] }}</span></li>
+          <li >Security Level 2: <span class="text-dark pl-3">{{ securityMap['2'] }}</span></li>
+          <li >Security Level 1: <span class="text-dark pl-3">{{ securityMap['1'] }}</span></li>
+        </ul>
+      </div>
+    </div>
+    
+
+  
+		
+    
+  </div>
+
+<div class="col-xl-6 col-md-12">
+
+        <div class="card card-default">
+          <div class="card-header justify-content-center">
+            <h2>Tickets per Project</h2>
+          </div>
+          <div class="card-body d-flex justify-content-center" >
+            <div style="width:70%;">
+                <canvas id="projectBarChart" ></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-default">
+          <div class="card-header justify-content-center">
+            <h2>Team Members per Project</h2>
+          </div>
+          <div class="card-body d-flex justify-content-center" >
+            <div style="width:70%;">
+                <canvas id="projectBarChart2" ></canvas>
+            </div>
+          </div>
+        </div>
+      
+  </div>
+
+
+</div>
+
+<div style="display: none;" id="donutData">{{ donutData }}</div>
+<div style="display: none;" id="projectBarData">{{ projectBarData }}</div>
+<div style="display: none;" id="projectBarData2">{{ projectBarData2 }}</div>
+
+{% endblock %}

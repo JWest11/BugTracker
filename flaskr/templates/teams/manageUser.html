@@ -1,0 +1,150 @@
+{% extends 'sidebars/teamSidebar.html' %}
+
+
+{% block content %}
+
+<a class="btn btn-secondary text-light mb-3" href="{{ url_for('teams.teams') }}">Back</a>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-default">
+            <div class="card-header card-header-border-bottom justify-content-between">
+                <h2>{{ user['username'] }} <span class="text-secondary">#{{ user['user_id'] }}</span></h2>
+                <div class="d-flex align-items-center">
+                    <h2 class="pr-3">Security Level {{ user['security_level'] }}</h2>
+                    <form method="post">
+                        <input min="1" max="3" type="number" name="securityLevel" class="numberInput" required>
+                        <input type="submit" class="btn btn-sm btn-dark" value="Update">
+                    </form>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                <div class="col-lg-6">
+                    <div class="card card-default">
+                        <div class="card-header card-header-border-bottom">
+                            <h2>Projects</h2>
+                        </div>
+            
+                        <div class="card-body">
+                                                
+                            <table class="table">
+                                <h4 class="text-success mb-3">Assigned to {{ user['username'] }}</h4>
+                                <tbody>
+                                    {% for project in users_projects %}
+                                    <tr>
+                                        <td>
+                                            <a class="hoverBlue" href="{{ url_for('projects.viewProject', project_id=project['project_id']) }}">{{ project['title'] }}</a>
+                                        </td>
+                                        <td>{{ project['description'] }}</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-dark" href="{{ url_for('teams.removeTeamMember2', project_id=project['project_id'], user_id=user['user_id']) }}">Unassign</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <table class="table">
+                                <h4 class="text-danger mb-3">Not assigned to {{ user['username'] }}</h4>
+                                <tbody>
+                                    {% for project in unassigned_projects %}
+                                    <tr>
+                                        <td>
+                                            <a class="hoverBlue" href="{{ url_for('projects.viewProject', project_id=project['project_id']) }}">{{ project['title'] }}</a>
+                                        </td>
+                                        <td>{{ project['description'] }}</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-dark" href="{{ url_for('teams.addTeamMember2', project_id=project['project_id'], user_id=user['user_id']) }}">Assign</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-default">
+                        <div class="card-header card-header-border-bottom">
+                            <h2>Tickets</h2>
+                        </div>
+            
+                        <div class="card-body">
+                                                
+                            <table class="table">
+                                <h4 class="text-success mb-3">Assigned to {{ user['username'] }}</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Priority</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ticket in tickets %}
+                                    <tr>
+                                        <td>
+                                            <a class="hoverBlue text-secondary" href="{{ url_for('tickets.viewTicket', ticket_id=ticket['ticket_id']) }}">{{ ticket['title'] }}</a>
+                                        </td>
+                                        <td>{{ ticket['description'] }}</td>
+                                        <td>
+                                            {% set priority = ticket['priority'] %}
+                                            {% if priority == 'High' %}
+                                            <span class="text-danger">{{ priority }}</span>
+                                            {% elif priority == 'Medium' %}
+                                            <span class="text-warning">{{ priority }}</span>
+                                            {% else %}
+                                            <span class="text-success">{{ priority }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-dark" href="{{ url_for('teams.unassignTicket', ticket_id=ticket['ticket_id'], user_id=user['user_id']) }}">Unassign</a>
+                                        </td>
+                                        
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <table class="table">
+                                <h4 class="text-danger mb-3">Not assigned to {{ user['username'] }}</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Assigned to</th>
+                                        <th>Priority</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ticket in available_tickets %}
+                                        <tr>
+                                            <td>
+                                                <a class="hoverBlue text-secondary" href="{{ url_for('tickets.viewTicket', ticket_id=ticket['ticket_id']) }}">{{ ticket['title'] }}</a>
+                                            </td>
+                                            <td>{{ ticket['assigned_username'] }}</td>
+                                            <td>
+                                                {% set priority = ticket['priority'] %}
+                                                {% if priority == 'High' %}
+                                                <span class="text-danger">{{ priority }}</span>
+                                                {% elif priority == 'Medium' %}
+                                                <span class="text-warning">{{ priority }}</span>
+                                                {% else %}
+                                                <span class="text-success">{{ priority }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-sm btn-dark" href="{{ url_for('teams.assignTicket', ticket_id=ticket['ticket_id'], user_id=user['user_id']) }}">Assign</a>
+                                            </td>
+                                            
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'bases/landingBase.html' %}
+
+
+{% block formContent %}
+<div class="formHeader">
+    <h1>Login</h1>
+</div>
+    
+<form method="post" class="auth_form">
+    <label for="username">Username</label>
+    <input class="inputText" name="username" id="username" required>
+    <label for="password">Password</label>
+    <input class="inputText" type="password" name="password" id="password" required>
+    <input class="inputSubmit" type="submit" value="Submit">
+</form>
+
+<div class="refContainer">
+    <p><a href="{{ url_for('auth.register') }}">Click Here</a> to register.</p>
+</div>
+<div class="refContainer">
+    <a class="demoLoginLink" href="{{ url_for('auth.demoLogin') }}">Demo Account Login</a>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends 'sidebars/projectSidebar.html' %}
+
+{% block content %}
+
+{% if g.user['security_level'] > 1 %}
+<a class="btn btn-secondary text-light mb-3" href="{{ url_for('projects.viewProject', project_id=ticket['project_id']) }}">Back</a>
+{% else %}
+<a class="btn btn-secondary text-light mb-3" href="{{ url_for('tickets.myTickets', user_id=g.user['user_id']) }}">Back</a>
+{% endif %}
+
+<div class="row">
+
+	<div class="col-lg-6">
+
+		<div class="card card-default">
+			<div class="card-header card-header-border-bottom justify-content-between">
+				<h2>{{ ticket['title'] }} <span class="text-secondary">{{ ticket['project_name'] }}</span> </h2>
+				{% if g.user['security_level'] > 1 %}
+				<a class="btn btn-dark ml-4"
+					href="{{ url_for('tickets.updateTicket', project_id=ticket['project_id'], ticket_id=ticket['ticket_id']) }}">Update/Delete</a>
+				{% endif %}
+			</div>
+
+			<div class="card-body">
+				<p class="mb-5 text-dark">{{ ticket['description'] }}</p>
+
+				<table class="table">
+					<tbody>
+						<tr>
+							<td scope="row">Assigned Member</td>
+							<td>{{ ticket['assigned_username'] }}</td>
+						</tr>
+						<tr>
+							<td scope="row">Priority</td>
+							<td>
+								{% set priority = ticket['priority'] %}
+								{% if priority == 'High' %}
+								<span class="badge badge-danger">{{ priority }}</span>
+								{% elif priority == 'Medium' %}
+								<span class="badge badge-warning">{{ priority }}</span>
+								{% else %}
+								<span class="badge badge-success">{{ priority }}</span>
+								{% endif %}
+							</td>
+						</tr>
+						<tr>
+							<td scope="row">Created</td>
+							<td>{{ ticket['created'] }}</td>
+						</tr>
+						<tr>
+							<td scope="row">Created by</td>
+							<td>{{ ticket['author_username'] }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="card card-default">
+			<div class="card-header card-header-border-bottom">
+				<h2>Changelog</h2>
+			</div>
+
+			<div class="card-body">
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Property</th>
+							<th scope="col">Previous</th>
+							<th scope="col">New</th>
+							<th scope="col">Timestamp</th>
+							<th scope="col">User</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for log in changelog %}
+						<tr id="changelog{{ loop.index0 }}" style="display:none">
+							<td class="text-secondary">{{ log['property'] }}</td>
+							<td>{{ log['old_value'] }}</td>
+							<td>{{ log['new_value'] }}</td>
+							<td>{{ log['created'] }}</td>
+							<td>{{ log['author_username'] }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<div class="container d-flex justify-content-end align-items-center" id="changelogControl">
+					
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="col-lg-6">
+
+		<div class="card card-default">
+			<div class="card-header card-header-border-bottom justify-content-between">
+				<h2>Comments</h2>
+			</div>
+
+			<div class="card-body">
+
+				<table class="table">
+					<form method="post">
+						<div class="input-group">
+							<input type="text" name="commentBody" class="form-control" placeholder="Comment here" aria-label="search" required>
+							<div class="input-group-append">
+								<input type="submit" name="comment" class="input-group-text bg-dark text-light" value="Add">
+							</div>
+						</div>
+					</form>
+					<thead>
+						<tr>
+							<th scope="col">Author</th>
+							<th scope="col">Message</th>
+							<th scope="col">Created</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for comment in comments %}
+						<tr id="comment{{ loop.index0 }}" style="display:none">
+							<td class="text-secondary">{{ comment['author_username'] }}</td>
+							<td>{{ comment['comment_body'] }}</td>
+							<td>{{ comment['created'] }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<div class="container d-flex justify-content-end align-items-center" id="commentControl">
+
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-default">
+			<div class="card-header card-header-border-bottom justify-content-between">
+				<h2>Attachments</h2>
+			</div>
+
+			<div class="card-body">
+
+				<table class="table">
+					<form method="post" enctype="multipart/form-data">
+						<div class="d-flex justify-content-between align-items-center mb-3">
+							<input type="file" name="file" class="form-control-file" required>
+							<input type="submit" value="Upload" class="btn btn-dark">
+						</div>
+					</form>
+					<thead>
+						<tr>
+							<th scope="col">File</th>
+							<th scope="col">User</th>
+							<th scope="col">Created</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for attachment in files %}
+						<tr id="file{{ loop.index0 }}" style="display:none">
+							<td>
+								<a target="_blank" href="{{ url_for('files.downloadFile', ticket_id=ticket['ticket_id'], filename=attachment['filename']) }}">{{ attachment['filename'] }}</a>
+							</td>
+							<td>{{ attachment['author_username'] }}</td>
+							<td>{{ attachment['created'] }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<div class="container d-flex justify-content-end align-items-center" id="fileControl">
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
+<script>
+	let CommentPagination = new Pagination({{ commentsLength }}, 5, "comment");
+	let ChangelogPagination = new Pagination({{ changelogLength }}, 5, "changelog");
+	let FilePagination = new Pagination({{ fileCount }}, 5, "file");
+
+</script>
+
+{% endblock %}

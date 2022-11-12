@@ -1,0 +1,31 @@
+{% extends 'sidebars/projectSidebar.html' %}
+
+
+{% block content %}
+
+<div class="row">
+<div class="col-12">
+    <div class="card card-default">
+        <div class="card-header card-header-border-bottom">
+            <h2>New Project</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <div class="input-group">
+                        <input type="text" name="title" class="form-control" id="title" placeholder="Title" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <div class="input-group">
+                        <input type="text" name="description" class="form-control" id="description" placeholder="Description" required>
+                    </div>
+                </div>
+                <input type="submit" value="Create" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
