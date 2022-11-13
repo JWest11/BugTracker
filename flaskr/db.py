@@ -28,11 +28,15 @@ def init_db():
 def fill_db():
     db = get_db()
 
-    db.execute(
-        "INSERT INTO users (username, password, security_level) VALUES (?, ?, ?)", ('admin', generate_password_hash('1234'), 3)
-    )
+    hash = generate_password_hash("1234ABCD56")
+    newUsers = [("Admin Demo", hash, 3), ("Manager Demo", hash, 2), ("Developer Demo", hash, 1), ("Kent", hash, 3), ("Jerry", hash, 2), ("Amy", hash, 2), ("Kate", hash, 2), ("Bob", hash, 1), ("Joe", hash, 1), ("John", hash, 1), ("Kim", hash, 1), ("Beck", hash, 1), ("Sally", hash, 1), ("Kamy", hash, 1), ("Cathy", hash, 1), ("Johnny", hash, 1)]
 
-    with current_app.open_resource('defaults.sql') as f:
+    for user in newUsers:
+        db.execute(
+            "INSERT INTO users (username, password, security_level) VALUES (?, ?, ?)", user
+        )
+
+    with current_app.open_resource('initialize.sql') as f:
         db.executescript(f.read().decode("utf8"))
         
     db.commit()

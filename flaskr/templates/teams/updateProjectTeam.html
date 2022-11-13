@@ -18,7 +18,12 @@
 
                 <table class="table">
                     <thead>
-                        <h4 class="text-success mb-3">Current Members</h4>
+                        <div class="d-flex justify-content-between">
+                            <h4 class="text-danger mb-3 mt-4">Current Members</h4>
+                            <div style="max-width:250px;" id="assignedSearchControl">
+    
+                            </div>
+                        </div>
                         <tr>
                             <th scope="col" class="text-secondary">username</th>
                             <th scope="col" class="text-secondary">Security Level</th>
@@ -28,7 +33,7 @@
 
                     <tbody>
                         {% for user in assigned_users %}
-                        <tr>
+                        <tr id="assigned{{ loop.index0 }}">
                             <td>{{ user['username'] }}</td>
                             <td class="text-dark">{{ user['security_level'] }}</td>
                             <td><a class="btn btn-danger btn-sm text-light" href="{{ url_for('teams.removeTeamMember', project_id=project['project_id'], user_id=user['user_id']) }}">Remove</a></td>
@@ -36,9 +41,18 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <div class="container d-flex justify-content-end align-items-center" id="assignedPageControl">
+
+                </div>
                 <table class="table">
                     <thead>
-                        <h4 class="text-danger mb-3 mt-4">Non Members</h4>
+                        <div class="d-flex justify-content-between">
+                            <h4 class="text-danger mb-3 mt-4">Non Members</h4>
+                            <div style="max-width:250px;" id="unassignedSearchControl">
+    
+                            </div>
+                        </div>
+                        
                         <tr>
                             <th scope="col" class="text-secondary">username</th>
                             <th scope="col" class="text-secondary">Security Level</th>
@@ -48,18 +62,32 @@
 
                     <tbody>
                         {% for user in unassigned_users %}
-                        <tr>
+                        <tr id="unassigned{{ loop.index0 }}">
                             <td>{{ user['username'] }}</td>
                             <td class="text-dark">{{ user['security_level'] }}</td>
                             <td><a class="btn btn-success btn-sm text-light" href="{{ url_for('teams.addTeamMember', project_id=project['project_id'], user_id=user['user_id']) }}">Add</a></td>
                         </tr>
                         {% endfor %}
+                        <tr>
+                            
+                        </tr>
                     </tbody>
+                    
+                    
                 </table>
+                <div class="container d-flex justify-content-end align-items-center" id="unassignedPageControl">
+
+                </div>
             </div>
         </div>
 
     </div>
 </div>
+
+<script src="{{ url_for('static', filename='js/SearchPagination.js') }}"></script>
+<script>
+    let unassignedSearchPagination = new SearchPagination({{ unassignedCount }}, 10, "unassigned");
+    let assignedSearchPagination = new SearchPagination({{ assignedCount }}, 10, "assigned");
+</script>
 
 {% endblock %}

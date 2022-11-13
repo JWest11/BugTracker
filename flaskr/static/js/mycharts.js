@@ -13,7 +13,8 @@ if (barX !== null) {
   let barLabels = []
   let barData = []
   for (let key in projectBarData) {
-    barLabels.push(key)
+    let label = key.split(" ")
+    barLabels.push(label)
     barData.push(projectBarData[key])
   };
   var myChart = new Chart(barX, {
@@ -87,7 +88,8 @@ if (barX !== null) {
   let barLabels = []
   let barData = []
   for (let key in projectBarData) {
-    barLabels.push(key)
+    let label = key.split(" ")
+    barLabels.push(label)
     barData.push(projectBarData[key])
   };
   var myChart = new Chart(barX, {

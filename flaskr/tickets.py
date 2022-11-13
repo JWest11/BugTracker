@@ -1,9 +1,9 @@
 import os
 from flask import Blueprint, flash, g, redirect, render_template, request, url_for, current_app
-from flaskr.auth import login_required, s2_required, s3_required
+from flaskr.auth import login_required, s2_required
 from flaskr.db import get_db
 from flaskr.projects import get_project, get_project_users
-from flaskr.auth import get_user, allowed_file
+from flaskr.auth import allowed_file
 from flaskr.files import deleteTicketFiles
 from werkzeug.utils import secure_filename
 

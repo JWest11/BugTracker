@@ -98,6 +98,7 @@ def demoLogin():
 @bp.route('/logout')
 def logout():
     session.clear()
+    flash('Logged Out')
     return redirect(url_for('auth.login'))
 
 @bp.before_app_request

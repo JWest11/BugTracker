@@ -1,7 +1,6 @@
 from flask import Blueprint, flash, g, redirect, render_template, request, url_for
 from flaskr.auth import login_required, s2_required, s3_required
 from flaskr.db import get_db
-from flaskr.auth import get_user
 
 
 bp = Blueprint('projects', __name__)

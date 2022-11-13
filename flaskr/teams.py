@@ -54,7 +54,7 @@ def updateProjectTeam(project_id):
             unassigned_users.append(user)
     project = get_project(project_id)
 
-    return render_template('teams/updateProjectTeam.html',g = g, unassigned_users = unassigned_users, assigned_users = assigned_users, project = project)
+    return render_template('teams/updateProjectTeam.html',g = g, unassigned_users = unassigned_users, unassignedCount= len(unassigned_users), assignedCount = len(assigned_users), assigned_users = assigned_users, project = project)
 
 @bp.route('/projects/<int:project_id>/addTeamMember/<int:user_id>')
 @login_required

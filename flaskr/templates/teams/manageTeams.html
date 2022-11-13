@@ -9,7 +9,7 @@
         <div class="card card-default">
             <div class="card-header card-header-border-bottom justify-content-between align-items-center">
                 <h2>Team Management</h2>
-                <div id="usersControl">
+                <div id="usersSearchControl">
 
                 </div>
             </div>
@@ -44,15 +44,18 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <div class="container d-flex justify-content-end align-items-center" id="usersPageControl">
+
+                </div>
             </div>
         </div>
     </div>
 
 </div>
 
-<script src="{{ url_for('static', filename='js/Search.js') }}"></script>
+<script src="{{ url_for('static', filename='js/SearchPagination.js') }}"></script>
 <script>
-    let userSearch = new Search({{ userCount }}, "users");
+    let userSearchPagination = new SearchPagination({{ userCount }}, 10, "users");
 </script>
 
 {% endblock %}

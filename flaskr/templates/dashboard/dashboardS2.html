@@ -31,13 +31,14 @@
               <td>Security Level {{ user.security_level }}</td>
             </tr>
             {% endfor %}
-            <div class="container d-flex justify-content-end align-items-center" id="{{userPrefix + 'Control' }}"></div>
+            
 
           </tbody>
           
 
           
         </table>
+        <div class="container d-flex justify-content-end align-items-center" id="{{userPrefix + 'Control' }}"></div>
         <h4 class="text-dark">Tickets</h4>
         <table class="table">
           <tbody>
@@ -49,16 +50,17 @@
               <td>{{ ticket.description }}</td>
             </tr>
             {% endfor %}
-            <div class="container d-flex justify-content-end align-items-center" id="{{ticketPrefix + 'Control'}}"></div>
+            
 
           </tbody>
         </table>
+        <div class="container d-flex justify-content-end align-items-center" id="{{ticketPrefix + 'Control'}}"></div>
         
       </div>
     </div>
     <script>
-      new Pagination({{ obj.ticketCount }}, 3, "{{ticketPrefix}}");
-      new Pagination({{ obj.teamSize }}, 3, "{{userPrefix}}");
+      new Pagination({{ obj.ticketCount }}, 5, "{{ticketPrefix}}");
+      new Pagination({{ obj.teamSize }}, 5, "{{userPrefix}}");
 
     </script>
     {% endfor %}
@@ -76,7 +78,7 @@
             <h2>Tickets per Project</h2>
           </div>
           <div class="card-body d-flex justify-content-center" >
-            <div style="width:70%;">
+            <div style="width:85%;max-width:600px;">
                 <canvas id="projectBarChart" ></canvas>
             </div>
           </div>
@@ -87,7 +89,7 @@
             <h2>Team Members per Project</h2>
           </div>
           <div class="card-body d-flex justify-content-center" >
-            <div style="width:70%;">
+            <div style="width:85%;max-width:600px;">
                 <canvas id="projectBarChart2" ></canvas>
             </div>
           </div>
