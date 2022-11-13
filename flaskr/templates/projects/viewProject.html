@@ -103,8 +103,8 @@
                       </thead>
                       <tbody>
                         {% for ticket in tickets %}
-                        <tr>
-                          <td id="ticket{{ loop.index0 }}" style="display:none">
+                        <tr id="ticket{{ loop.index0 }}" style="display:none">
+                          <td>
                             <a class="text-dark" href="{{ url_for('tickets.viewTicket', ticket_id=ticket['ticket_id'] )}}">{{ ticket['title'] }}</a>
                           </td>
                           <td class="d-none d-lg-table-cell text-dark">{{ ticket['assigned_username'] }}</td>
