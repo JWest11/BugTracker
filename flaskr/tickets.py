@@ -196,6 +196,12 @@ def deleteTicket(project_id, ticket_id):
     db.execute(
         "DELETE FROM attachments WHERE ticket_id = ?", (ticket_id,)
     )
+    db.execute(
+        "DELETE FROM comments WHERE ticket_id = ?", (ticket_id,)
+    )
+    db.execute(
+        "DELETE FROM ticket_changelog WHERE ticket_id = ?", (ticket_id,)
+    )
     db.commit()
 
     deleteTicketFiles(ticket_id)

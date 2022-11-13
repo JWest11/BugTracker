@@ -8,7 +8,8 @@ bp = Blueprint('files', __name__, url_prefix='/files')
 
 def deleteTicketFiles(ticket_id):
     path = os.path.join(current_app.config['UPLOAD_FOLDER'], str(ticket_id))
-    shutil.rmtree(path)
+    if os.path.exists(path):
+        shutil.rmtree(path)
 
 @bp.route('/download/<int:ticket_id>/<string:filename>')
 @login_required
